@@ -1,17 +1,30 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { config, track } from "../analytics.js";
+import {
+  buildInquiryMessage,
+  whatsappHref,
+  phoneDisplay,
+  phoneHref,
+} from "../inquiries.js";
+import { products } from "../data/products.js";
 
 export function BusinessDetails() {
   return (
     <div id="business-details">
+      <a className="contact-phone" href={phoneHref}>
+        Llamanos al {phoneDisplay}
+      </a>
       {config.address || config.hours ? (
         <>
           {config.address && <p>Dirección: {config.address}</p>}
           {config.hours && <p>Horarios: {config.hours}</p>}
         </>
       ) : (
-        <p>Dirección y horarios: a confirmar con el comercio.</p>
+        <p>Encontranos en nuestras dos sedes.</p>
       )}
+      <a className="arrow-link" href="#sedes">
+        Ver sedes y ubicaciones →
+      </a>
     </div>
   );
 }
@@ -20,12 +33,15 @@ export function ContactForm() {
   const query = new URLSearchParams(window.location.search);
   const [fields, setFields] = useState(() => ({
     name: "",
+    battery: query.get("producto") || "",
+    specifications: query.get("especificaciones") || "",
+    dimensions: query.get("medidas") || "",
+    references: query.get("referencias") || "",
     vehicle: query.get("vehiculo") || "",
-    year: "",
+    year: query.get("anio") || "",
     engine: query.get("motor") || "",
-    message: query.get("producto")
-      ? `Quiero consultar precio y disponibilidad de ${query.get("producto")}.`
-      : "",
+    message: query.get("consulta") || "",
+    branch: query.get("sede") || "",
   }));
   const [prepared, setPrepared] = useState("");
   const [feedback, setFeedback] = useState("");
@@ -33,8 +49,12 @@ export function ContactForm() {
   const resultRef = useRef(null);
   const messageRef = useRef(null);
   const inputProps = (field) => ({
+    name: field,
     value: fields[field],
-    onChange: (event) => setFields({ ...fields, [field]: event.target.value }),
+    onChange: (event) => {
+      event.target.setCustomValidity("");
+      setFields({ ...fields, [field]: event.target.value });
+    },
   });
 
   useLayoutEffect(() => {
@@ -44,25 +64,30 @@ export function ContactForm() {
 
   function submit(event) {
     event.preventDefault();
-    const message =
-      "Hola, quisiera consultar por una batería en El Emporio de las Baterías.\nNombre: " +
-      fields.name.trim() +
-      "\nVehículo: " +
-      fields.vehicle.trim() +
-      "\nAño: " +
-      (fields.year.trim() || "No indicado") +
-      "\nMotor: " +
-      (fields.engine.trim() || "No indicado") +
-      "\nConsulta: " +
-      (fields.message.trim() || "Precio y disponibilidad");
-    const number = String(config.whatsapp || "").replace(/\D/g, "");
-    if (number) {
+    const form = event.currentTarget;
+    for (const [field, message] of [
+      ["name", "Ingresá tu nombre."],
+      ["vehicle", "Ingresá la marca y el modelo del vehículo."],
+    ]) {
+      form.elements
+        .namedItem(field)
+        .setCustomValidity(fields[field].trim() ? "" : message);
+    }
+    if (!form.reportValidity()) return;
+    const product = products.find((product) => product.name === fields.battery);
+    const inquiry = {
+      ...fields,
+      specifications: fields.specifications || product?.description,
+    };
+    const messageOptions = {
+      includeCompatibilityQuestion: false,
+      format: "sections",
+    };
+    const message = buildInquiryMessage(inquiry, messageOptions);
+    const href = whatsappHref(inquiry, messageOptions);
+    if (href) {
       track("whatsapp_click", { source: "contact_form" });
-      window.open(
-        `https://wa.me/${number}?text=${encodeURIComponent(message)}`,
-        "_blank",
-        "noopener,noreferrer",
-      );
+      window.open(href, "_blank", "noopener,noreferrer");
     } else {
       setPrepared(message);
       setSubmission((value) => value + 1);
@@ -82,6 +107,34 @@ export function ContactForm() {
   return (
     <>
       <form id="contact-form" className="contact-form" onSubmit={submit}>
+        <label>
+          Batería que te interesa
+          <select
+            id="contact-product"
+            name="battery"
+            value={fields.battery}
+            onChange={(event) =>
+              setFields({
+                ...fields,
+                battery: event.target.value,
+                specifications: "",
+                dimensions: "",
+                references: "",
+              })
+            }
+          >
+            <option value="">No sé el modelo / Consultar</option>
+            {products.map((product) => (
+              <option key={product.name} value={product.name}>
+                {product.name}
+              </option>
+            ))}
+            {fields.battery &&
+              !products.some((product) => product.name === fields.battery) && (
+                <option value={fields.battery}>{fields.battery}</option>
+              )}
+          </select>
+        </label>
         <label>
           Tu nombre <span>*</span>
           <input
@@ -131,11 +184,11 @@ export function ContactForm() {
           />
         </label>
         <button className="button btn-primary" type="submit">
-          Preparar consulta <span>→</span>
+          Consultar por WhatsApp <span>↗</span>
         </button>
         <p className="small-note">
-          Si se configura el número oficial, se abrirá WhatsApp con tu mensaje.
-          Si no, podrás copiarlo.
+          Se abrirá WhatsApp con tu mensaje escrito. Revisalo y enviá la
+          consulta.
         </p>
       </form>
       <div

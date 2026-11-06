@@ -1,13 +1,35 @@
-import { useState } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
+import { WhatsAppLink } from "./WhatsAppLink.jsx";
+import { phoneHref, phoneDisplay, contactFormHref } from "../inquiries.js";
 
 export function Header({ page }) {
   const [open, setOpen] = useState(false);
+  const navRef = useRef(null);
+  const [menuHeight, setMenuHeight] = useState(null);
+  useLayoutEffect(() => {
+    if (!open) return;
+    const resizeMenu = () =>
+      setMenuHeight(
+        Math.max(
+          0,
+          window.innerHeight - navRef.current.getBoundingClientRect().top - 8,
+        ),
+      );
+    resizeMenu();
+    window.addEventListener("resize", resizeMenu);
+    window.addEventListener("scroll", resizeMenu, { passive: true });
+    return () => {
+      window.removeEventListener("resize", resizeMenu);
+      window.removeEventListener("scroll", resizeMenu);
+    };
+  }, [open]);
   return (
     <>
       <div className="topline">
         <div className="shell">
           Baterías para autos y camionetas <span>·</span> Atención personalizada
-          en nuestro local
+          en nuestras sedes <span>·</span>
+          <a href={phoneHref}>Llamanos: {phoneDisplay}</a>
         </div>
       </div>
       <header className="header">
@@ -36,6 +58,10 @@ export function Header({ page }) {
             ☰
           </button>
           <nav
+            ref={navRef}
+            style={
+              open ? { "--menu-max-height": `${menuHeight}px` } : undefined
+            }
             id="menu"
             className={`nav${open ? " open" : ""}`}
             aria-label="Navegación principal"
@@ -70,7 +96,7 @@ export function Header({ page }) {
             >
               Contacto
             </a>
-            <a className="nav-contact" href="contacto.html">
+            <a className="nav-contact" href={contactFormHref()}>
               Hacer una consulta <span>↗</span>
             </a>
           </nav>
@@ -107,9 +133,13 @@ export function Footer() {
         <div>
           <b>Atención</b>
           <p>Consultas sobre modelos, compatibilidad y disponibilidad.</p>
-          <a href="contacto.html" className="footer-link">
-            Escribinos ↗
+          <a href={phoneHref} className="footer-link">
+            Llamar al {phoneDisplay}
           </a>
+          <a href="contacto.html#sedes">Nuestras dos sedes</a>
+          <WhatsAppLink className="footer-link" source="footer">
+            Escribinos ↗
+          </WhatsAppLink>
         </div>
       </div>
       <div className="shell footer-bottom">

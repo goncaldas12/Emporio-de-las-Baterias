@@ -1,4 +1,9 @@
-export const config = window.SITE_CONFIG || {};
+export const config = {
+  phone: "+5491123724111",
+  phoneDisplay: "+54 9 11 2372-4111",
+  whatsapp: "5491123724111",
+  ...window.SITE_CONFIG,
+};
 export const consentKey = "emporio-cookie-consent";
 
 export function loadAnalytics() {
