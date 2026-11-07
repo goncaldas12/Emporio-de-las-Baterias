@@ -381,7 +381,7 @@ for (const url of ["contacto.html", "nosotros.html"]) {
     }
     await expect(page.locator("#sedes iframe").nth(0)).toHaveAttribute(
       "src",
-      /0x95bcbff3ac39d213/,
+      /0x95bc955bc7d1f5ad/,
     );
     await expect(page.locator("#sedes iframe").nth(1)).toHaveAttribute(
       "src",
@@ -390,7 +390,7 @@ for (const url of ["contacto.html", "nosotros.html"]) {
     const mapLinks = page.getByRole("link", { name: "Ver en Google Maps ↗" });
     await expect(mapLinks.nth(0)).toHaveAttribute(
       "href",
-      "https://www.google.com/maps?cid=9643561144680584025",
+      "https://www.google.com/maps?cid=11222734419170433436",
     );
     await expect(mapLinks.nth(1)).toHaveAttribute(
       "href",
@@ -407,7 +407,7 @@ for (const url of ["contacto.html", "nosotros.html"]) {
     const popup = await popupPromise;
     await popup.waitForLoadState("domcontentloaded");
     expect(popup.url()).toBe(
-      "https://www.google.com/maps?cid=9643561144680584025",
+      "https://www.google.com/maps?cid=11222734419170433436",
     );
     await popup.close();
     const message = inquiryUrl(
@@ -691,7 +691,7 @@ test("map buttons never reuse embed URLs when public links are missing or miscon
   const links = page.getByRole("link", { name: "Ver en Google Maps ↗" });
   await expect(links.nth(0)).toHaveAttribute(
     "href",
-    "https://www.google.com/maps?cid=9643561144680584025",
+    "https://www.google.com/maps?cid=11222734419170433436",
   );
   await expect(links.nth(1)).toHaveAttribute(
     "href",

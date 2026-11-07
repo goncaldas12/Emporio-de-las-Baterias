@@ -16,8 +16,8 @@ window.SITE_CONFIG = {
       address: "",
       hours: "9 a 18",
       googleMapsEmbedUrl:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52504.54752935714!2d-58.78380775451663!3d-34.66646425098076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcbff3ac39d213%3A0x85d4cfc46e721359!2sEL%20EMPORIO%20DE%20LAS%20BATERIAS!5e0!3m2!1ses-419!2sar!4v1793919798860!5m2!1ses-419!2sar",
-      googleMapsUrl: "https://www.google.com/maps?cid=9643561144680584025",
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3281.5288754435674!2d-58.7424432!3d-34.6665992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bc955bc7d1f5ad%3A0x9bbf297e5f34199c!2sBaterias%20Vulcano!5e0!3m2!1ses-419!2sar!4v1794068792442!5m2!1ses-419!2sar",
+      googleMapsUrl: "https://www.google.com/maps?cid=11222734419170433436",
     },
     {
       id: "sede-2",
