@@ -16,7 +16,7 @@ export function WhatsAppLink({
       target={href ? "_blank" : undefined}
       rel={href ? "noopener noreferrer" : undefined}
       onClick={() => {
-        if (href) track("whatsapp_click", { source });
+        if (href) track("click_whatsapp", { source });
       }}
     >
       {children}

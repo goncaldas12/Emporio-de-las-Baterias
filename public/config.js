@@ -29,7 +29,7 @@ window.SITE_CONFIG = {
       googleMapsUrl: "https://www.google.com/maps?cid=3296901922149380405",
     },
   ],
-  ga4Id: "", // Ej.: G-XXXXXXXXXX
+  ga4Id: "G-0P2514WLKE",
   googleAdsId: "", // Ej.: AW-XXXXXXXXX
   googleAdsConversionLabel: "",
 };
