@@ -160,7 +160,7 @@ export function ConsentBanner({ visible, onChoose }) {
     <div id="consent" className="consent" hidden={!visible}>
       <p>
         {"Usamos medición de visitas solo si la aceptás. "}
-        <a href="privacidad.html">Más información</a>.
+        <a href="privacidad.html">Política de privacidad</a>.
       </p>
       <div>
         <button
