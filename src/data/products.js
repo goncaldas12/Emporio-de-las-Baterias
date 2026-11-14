@@ -1,3 +1,5 @@
+import { compareBatteryBrands } from "./brands.js";
+
 export const products = [
   {
     brand: "Moura",
@@ -99,4 +101,4 @@ export const products = [
     alt: "Imagen ilustrativa de batería Vulcano",
     href: "contacto.html?producto=Vulcano%2070R",
   },
-];
+].sort((a, b) => compareBatteryBrands(a.brand, b.brand));

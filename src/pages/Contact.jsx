@@ -1,4 +1,5 @@
 import { ContactForm, BusinessDetails } from "../components/ContactForm.jsx";
+import { BranchLocations } from "../components/BranchLocations.jsx";
 
 export default function Contact() {
   return (
@@ -14,7 +15,7 @@ export default function Contact() {
       <section className="section shell contact-layout">
         <div className="contact-card">
           <h2>Consultá por una batería</h2>
-          <p>Completá los datos para preparar el mensaje.</p>
+          <p>Completá los datos y consultanos directamente por WhatsApp.</p>
           <ContactForm />
         </div>
         <aside className="contact-aside">
@@ -30,6 +31,7 @@ export default function Contact() {
           </a>
         </aside>
       </section>
+      <BranchLocations />
     </main>
   );
 }

@@ -1,3 +1,6 @@
+import { BranchLocations } from "../components/BranchLocations.jsx";
+import { WhatsAppLink } from "../components/WhatsAppLink.jsx";
+
 export default function About() {
   return (
     <main id="main">
@@ -25,14 +28,15 @@ export default function About() {
             a consultar las alternativas disponibles.
           </p>
           <p>
-            Trabajamos con marcas como Moura, Willard, Varta y Vulcano, entre
+            Trabajamos con marcas como Vulcano, Moura, Willard y Varta, entre
             otras referencias según disponibilidad.
           </p>
-          <a href="contacto.html" className="button btn-primary">
+          <WhatsAppLink className="button btn-primary" source="about">
             Contactanos →
-          </a>
+          </WhatsAppLink>
         </div>
       </section>
+      <BranchLocations />
       <section className="section shell second-photo">
         <div>
           <p className="eyebrow">VISITANOS</p>

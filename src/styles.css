@@ -175,6 +175,7 @@ img {
   @apply flex gap-[12px] flex-wrap mt-[29px];
 }
 .button {
+  max-width: 100%;
   @apply inline-flex items-center justify-center gap-[14px];
   border: 1px solid transparent;
   @apply p-[13px_22px] min-h-[49px] rounded-[4px] text-[13px] font-extrabold;
@@ -237,7 +238,7 @@ img {
   @apply p-[35px_0_38px];
 }
 .strip-layout {
-  @apply grid grid-cols-[340px_1fr] gap-[38px];
+  @apply grid grid-cols-[340px_minmax(0,1fr)] gap-[38px];
   align-items: end;
 }
 .light {
@@ -252,11 +253,11 @@ img {
   @apply mb-[0] text-[13px];
 }
 .mini-form {
-  @apply grid grid-cols-[1fr_1fr_auto] gap-[12px];
+  @apply grid grid-cols-[repeat(3,minmax(0,1fr))_auto] gap-[12px] min-w-[0];
   align-items: end;
 }
 .mini-form label {
-  @apply grid gap-[6px];
+  @apply grid gap-[6px] min-w-[0];
   color: #fff;
   @apply text-[12px] font-bold;
 }
@@ -268,6 +269,7 @@ img {
 .filters select,
 .finder-form select,
 .contact-form input,
+.contact-form select,
 .contact-form textarea,
 .guide-search input {
   @apply w-[100%];
@@ -282,6 +284,7 @@ img {
 .filters select:focus,
 .finder-form select:focus,
 .contact-form input:focus,
+.contact-form select:focus,
 .contact-form textarea:focus,
 .guide-search input:focus {
   border-color: var(--blue);
@@ -773,6 +776,11 @@ tr:last-child td {
 }
 
 @media (max-width: 810px) {
+  .nav.open {
+    max-height: var(--menu-max-height, calc(100dvh - 150px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
   .shell {
     @apply w-[min(100%_-_36px,var(--width))];
   }
@@ -991,5 +999,206 @@ tr:last-child td {
   }
   .consent > div {
     @apply justify-end;
+  }
+}
+
+/* Contact actions, vehicle references and the two configurable branch maps. */
+.topline a {
+  @apply whitespace-nowrap;
+}
+.topline a:hover {
+  @apply underline;
+}
+.preferred-battery {
+  @apply grid gap-[5px] p-[16px] mb-[14px] rounded-[4px];
+  background: #fff;
+  border: 1px solid #d6e3ec;
+}
+.preferred-battery small {
+  @apply text-[10px] tracking-[.12em] font-extrabold;
+  color: var(--blue);
+}
+.preferred-battery strong {
+  @apply text-[18px];
+  color: var(--deep);
+}
+.preferred-battery span {
+  @apply text-[12px];
+  color: var(--muted);
+}
+.finder-result,
+.branch-section {
+  scroll-margin-top: 110px;
+}
+.finder-result .button {
+  @apply whitespace-normal text-center;
+}
+.finder-side .arrow-link {
+  @apply whitespace-normal;
+}
+.finder-layout > *,
+.contact-layout > * {
+  @apply min-w-[0];
+}
+.guide-filter-row {
+  @apply grid grid-cols-[repeat(3,minmax(0,1fr))] gap-[14px];
+}
+.guide-filter-row label {
+  @apply grid gap-[7px] text-[13px] font-bold min-w-[0];
+  color: #425666;
+}
+.guide-filters .filter-title {
+  @apply items-center gap-[12px];
+}
+.guide-filters .filter-title > span {
+  @apply font-extrabold;
+  color: var(--deep);
+}
+.clear-filters {
+  @apply text-[12px] font-bold p-[0];
+  background: none;
+  border: 0;
+  color: var(--blue);
+}
+.clear-filters:disabled {
+  @apply cursor-default;
+  color: var(--muted);
+  opacity: 0.5;
+}
+.guide-table {
+  @apply min-w-[950px];
+}
+.guide-references strong,
+.guide-references small {
+  @apply block;
+}
+.guide-references strong {
+  color: var(--navy);
+}
+.guide-references small {
+  @apply mt-[5px] text-[11px];
+  color: var(--muted);
+}
+.contact-phone {
+  @apply inline-block font-extrabold mb-[12px];
+  color: var(--navy);
+}
+.contact-phone:hover,
+.branch-phone:hover {
+  @apply underline;
+}
+.branch-section {
+  @apply pt-[0];
+}
+.branch-grid {
+  @apply grid grid-cols-[repeat(2,minmax(0,1fr))] gap-[24px];
+}
+.branch-card {
+  @apply overflow-hidden rounded-[5px];
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.branch-map {
+  @apply h-[280px];
+  background: #edf3f6;
+  border-bottom: 1px solid var(--line);
+}
+.branch-map iframe {
+  @apply block w-[100%] h-[100%];
+  border: 0;
+}
+.branch-map-placeholder {
+  @apply flex flex-col items-center justify-center gap-[8px] h-[100%] text-center;
+  background-image:
+    linear-gradient(
+      28deg,
+      transparent 38%,
+      #fff9 38%,
+      #fff9 42%,
+      transparent 42%
+    ),
+    linear-gradient(
+      115deg,
+      transparent 56%,
+      #fff9 56%,
+      #fff9 61%,
+      transparent 61%
+    );
+  color: var(--navy);
+}
+.branch-map-placeholder svg {
+  color: var(--orange);
+}
+.branch-map-placeholder span {
+  @apply text-[12px];
+  color: var(--muted);
+}
+.branch-body {
+  @apply p-[26px];
+}
+.branch-body .eyebrow {
+  @apply mb-[9px];
+}
+.branch-body h3 {
+  @apply text-[23px] mb-[12px];
+  color: var(--deep);
+}
+.branch-body > p:not(.eyebrow) {
+  @apply text-[13px] mb-[8px];
+  color: var(--muted);
+}
+.branch-phone {
+  @apply inline-block text-[13px] font-bold mt-[6px];
+  color: var(--blue);
+}
+.branch-actions {
+  @apply flex flex-wrap items-center gap-[18px] mt-[20px];
+}
+@media (max-width: 810px) {
+  .guide-filter-row {
+    @apply grid-cols-[repeat(2,minmax(0,1fr))];
+  }
+  .branch-grid {
+    @apply grid-cols-[1fr];
+  }
+}
+@media (max-width: 540px) {
+  .guide-filter-row {
+    @apply grid-cols-[1fr];
+  }
+  .branch-map {
+    @apply h-[240px];
+  }
+  .branch-body {
+    @apply p-[22px];
+  }
+  .finder-result .button {
+    @apply w-[100%] p-[12px];
+  }
+}
+
+/* Keep compact layouts usable without clipping content or hiding overflow. */
+.product-card .card-link {
+  @apply inline-block whitespace-normal;
+}
+.feature-layout > *,
+.about-layout > *,
+.second-photo > *,
+.footer-grid > * {
+  @apply min-w-[0];
+}
+.product-body,
+.preferred-battery,
+.result-line,
+.contact-card,
+.branch-body {
+  overflow-wrap: anywhere;
+}
+.table-wrapper {
+  @apply max-w-[100%];
+}
+@media (max-width: 360px) {
+  .product-grid {
+    @apply grid-cols-[1fr];
   }
 }

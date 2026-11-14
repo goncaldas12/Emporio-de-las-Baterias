@@ -1,4 +1,6 @@
 import { VehicleFinder } from "../components/VehicleFinder.jsx";
+import { batteryBrands } from "../data/brands.js";
+import { WhatsAppLink } from "../components/WhatsAppLink.jsx";
 
 export default function Home() {
   return (
@@ -39,7 +41,7 @@ export default function Home() {
           <div>
             <p className="eyebrow light">ENCONTRÁ TU BATERÍA</p>
             <h2>¿Qué vehículo tenés?</h2>
-            <p>Elegí la marca y el modelo para ver una referencia.</p>
+            <p>Elegí marca, modelo y motor para ver tu batería.</p>
           </div>
           <VehicleFinder mini />
         </div>
@@ -56,34 +58,22 @@ export default function Home() {
           </a>
         </div>
         <div className="brand-grid">
-          <a className="brand-tile" href="baterias.html?marca=Moura">
-            <img src="assets/moura.webp" alt="Batería Moura" />
-            <span>
-              <b>Moura</b>
-              <small>Consultar modelos →</small>
-            </span>
-          </a>
-          <a className="brand-tile" href="baterias.html?marca=Willard">
-            <img src="assets/willard.webp" alt="Batería Willard" />
-            <span>
-              <b>Willard</b>
-              <small>Consultar modelos →</small>
-            </span>
-          </a>
-          <a className="brand-tile" href="baterias.html?marca=Varta">
-            <img src="assets/varta.webp" alt="Batería Varta" />
-            <span>
-              <b>Varta</b>
-              <small>Consultar modelos →</small>
-            </span>
-          </a>
-          <a className="brand-tile" href="baterias.html?marca=Vulcano">
-            <img src="assets/vulcano.webp" alt="Batería Vulcano" />
-            <span>
-              <b>Vulcano</b>
-              <small>Consultar modelos →</small>
-            </span>
-          </a>
+          {batteryBrands.map((brand) => (
+            <a
+              key={brand}
+              className="brand-tile"
+              href={`baterias.html?marca=${encodeURIComponent(brand)}`}
+            >
+              <img
+                src={`assets/${brand.toLowerCase()}.webp`}
+                alt={`Batería ${brand}`}
+              />
+              <span>
+                <b>{brand}</b>
+                <small>Ver modelos →</small>
+              </span>
+            </a>
+          ))}
         </div>
       </section>
       <section className="feature-panel">
@@ -111,9 +101,9 @@ export default function Home() {
           <h2>Contanos qué auto tenés.</h2>
           <p>Con la marca, el modelo y el año podemos orientarte mejor.</p>
         </div>
-        <a className="button btn-primary" href="contacto.html">
-          Hacer una consulta →
-        </a>
+        <WhatsAppLink className="button btn-primary" source="home_cta">
+          Hacer una consulta por WhatsApp ↗
+        </WhatsAppLink>
       </section>
     </main>
   );

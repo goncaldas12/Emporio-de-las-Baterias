@@ -2,13 +2,13 @@ import { useState } from "react";
 import { products } from "../data/products.js";
 import { ProductCard } from "../components/ProductCard.jsx";
 import { normalize } from "../utils.js";
+import { batteryBrands } from "../data/brands.js";
+import { WhatsAppLink } from "../components/WhatsAppLink.jsx";
 
 export default function Products() {
   const [brand, setBrand] = useState(() => {
     const value = new URLSearchParams(window.location.search).get("marca");
-    return ["Moura", "Willard", "Varta", "Vulcano"].includes(value)
-      ? value
-      : "";
+    return batteryBrands.includes(value) ? value : "";
   });
   const [type, setType] = useState("");
   const [search, setSearch] = useState("");
@@ -52,10 +52,9 @@ export default function Products() {
                 onChange={(event) => setBrand(event.target.value)}
               >
                 <option value="">Todas las marcas</option>
-                <option>Moura</option>
-                <option>Willard</option>
-                <option>Varta</option>
-                <option>Vulcano</option>
+                {batteryBrands.map((value) => (
+                  <option key={value}>{value}</option>
+                ))}
               </select>
             </label>
             <label>
@@ -83,7 +82,16 @@ export default function Products() {
         </div>
         <p id="product-empty" className="empty" hidden={count > 0}>
           {"No encontramos productos con esos filtros. "}
-          <a href="contacto.html">Consultanos por tu batería.</a>
+          <WhatsAppLink
+            source="catalog_empty"
+            inquiry={{
+              battery: brand ? `${brand} (modelo a confirmar)` : undefined,
+              specifications: type ? `Para ${type}` : undefined,
+              message: search ? `Estoy buscando: ${search}` : undefined,
+            }}
+          >
+            Consultanos por tu batería.
+          </WhatsAppLink>
         </p>
         <p className="small-note">
           Las imágenes son ilustrativas y pueden no representar la presentación
